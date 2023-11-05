@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: square-job
+spec:
+  template:
+    metadata:
+      name: square-job
+    spec:
+      containers:
+      - name: pyspark
+        image: gettyimages/spark
+        command: ["python"]
+        args: ["/mnt/square_calculator.py"]
+        volumeMounts:
+        - name: workdir
+          mountPath: /mnt
+      restartPolicy: Never
+      volumes:
+      - name: workdir
+        hostPath:
+          path: /mnt
